@@ -130,4 +130,12 @@ class Game:
 
 	def draw(self, screen):
 		self.grid.draw(screen)
-		self.current_block.draw(screen)
+		self.current_block.draw(screen, 11, 11)
+
+		# only pieces I and O are custom drawn centralized 
+		if self.next_block.id == 1:
+			self.next_block.draw(screen, 255, 408)
+		elif self.next_block.id == 4:
+			self.next_block.draw(screen, 255, 395)
+		else:
+			self.next_block.draw(screen, 270, 390)
