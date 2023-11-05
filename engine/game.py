@@ -22,6 +22,13 @@ class Game:
 		self.current_block = self.get_random_block()
 		self.next_block = self.get_random_block()
 		self.game_over = False
+		self.game_paused = False
+
+	def set_pause_or_resume_game(self):
+		if self.game_paused == False:
+			self.game_paused = True
+		elif self.game_paused == True:
+			self.game_paused = False
 
 	def get_random_block(self):
 		if len(self.blocks) == 0:

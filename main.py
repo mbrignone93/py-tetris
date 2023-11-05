@@ -4,6 +4,9 @@
 #  © 2023	
 #
 
+
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import sys
 from engine.game import Game
@@ -22,6 +25,8 @@ running = True
 
 game = Game()
 
+print("Py-Tetris running...")
+
 GAME_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(GAME_UPDATE, 200)
 
@@ -36,17 +41,20 @@ while running:
 				game.game_over = False
 				game.reset()
 
-			if event.key == pygame.K_LEFT and game.game_over == False:
+			if event.key == pygame.K_LEFT and game.game_over == False and game.game_paused == False:
 				game.move_left()
-			if event.key == pygame.K_RIGHT and game.game_over == False:
+			if event.key == pygame.K_RIGHT and game.game_over == False and game.game_paused == False:
 				game.move_right()
-			if event.key == pygame.K_DOWN and game.game_over == False:
+			if event.key == pygame.K_DOWN and game.game_over == False and game.game_paused == False:
 				game.move_down()
-			if event.key == pygame.K_UP and game.game_over == False:
+			if event.key == pygame.K_UP and game.game_over == False and game.game_paused == False:
 				game.rotate()
+			if event.key == pygame.K_RETURN:
+				game.set_pause_or_resume_game()
 
 		if event.type == GAME_UPDATE and game.game_over == False:
-			game.move_down()
+			if game.game_paused == False:
+				game.move_down()
 
 	#drawing
 	screen.fill(dar_blue)
