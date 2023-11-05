@@ -12,6 +12,7 @@ from engine.pieces.o_block import OBlock
 from engine.pieces.s_block import SBlock
 from engine.pieces.t_block import TBlock
 from engine.pieces.z_block import ZBlock
+import pygame
 import random
 
 class Game:
@@ -25,7 +26,12 @@ class Game:
 		self.game_paused = False
 		self.score = 0
 		self.HIGHSCORE_FILE = "highscore.txt"
+		self.rotate_sound = pygame.mixer.Sound("assets/sounds/rotate.ogg")
+		self.clear_sound = pygame.mixer.Sound("assets/sounds/clear.ogg")
 
+		pygame.mixer.music.load("assets/sounds/music.ogg")
+		pygame.mixer.music.play(-1)
+		
 	def update_score(self, lines_cleared, move_down_points):
 		match lines_cleared:
 			case 1:
@@ -93,7 +99,9 @@ class Game:
 		self.current_block = self.next_block
 		self.next_block = self.get_random_block()
 		rows_cleared = self.grid.clear_full_rows()
-		self.update_score(rows_cleared, 0)
+		if rows_cleared > 0:
+			self.clear_sound.play()
+			self.update_score(rows_cleared, 0)
 		if self.block_fits() == False:
 			self.game_over = True
 
@@ -120,6 +128,8 @@ class Game:
 		self.current_block.rotate()
 		if self.block_inside() == False or self.block_fits() == False:
 			self.current_block.undo_rotation()
+		else:
+			self.rotate_sound.play()
 
 	def block_inside(self):
 		tiles = self.current_block.get_cell_positions()

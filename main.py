@@ -25,7 +25,7 @@ highscore_rect = pygame.Rect(320, 60, 170, 60)
 score_rect = pygame.Rect(320, 195, 170, 60)
 next_rect = pygame.Rect(320, 335, 170, 180)
 
-icon = pygame.image.load('assets/icon.png')
+icon = pygame.image.load('assets/icon/icon.png')
 screen = pygame.display.set_mode((500, 620))
 pygame.display.set_caption("Py-Tetris")
 pygame.display.set_icon(icon)
