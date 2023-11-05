@@ -23,6 +23,34 @@ class Game:
 		self.next_block = self.get_random_block()
 		self.game_over = False
 		self.game_paused = False
+		self.score = 0
+		self.HIGHSCORE_FILE = "highscore.txt"
+
+	def update_score(self, lines_cleared, move_down_points):
+		match lines_cleared:
+			case 1:
+				self.score += 40
+			case 2:
+				self.score += 100
+			case 3:
+				self.score += 300
+			case 4:
+				self.score += 1200
+		self.score += move_down_points
+
+	def get_highscore(self):
+		file = open(self.HIGHSCORE_FILE, "r")
+		highscore = file.read()
+		return highscore
+
+	def set_highscore(self):
+		highscore = self.get_highscore()
+		if self.score > int(highscore):
+			file = open(self.HIGHSCORE_FILE, "a")
+			file.seek(0)
+			file.truncate()
+			file.write(str(self.score))
+			file.close()
 
 	def set_pause_or_resume_game(self):
 		if self.game_paused == False:
@@ -64,7 +92,8 @@ class Game:
 			self.grid.grid[position.row][position.column] = self.current_block.id
 		self.current_block = self.next_block
 		self.next_block = self.get_random_block()
-		self.grid.clear_full_rows()
+		rows_cleared = self.grid.clear_full_rows()
+		self.update_score(rows_cleared, 0)
 		if self.block_fits() == False:
 			self.game_over = True
 
@@ -77,6 +106,8 @@ class Game:
 		]
 		self.current_block = self.get_random_block()
 		self.next_block = self.get_random_block()
+		self.set_highscore()
+		self.score = 0
 
 	def block_fits(self):
 		tiles = self.current_block.get_cell_positions()
