@@ -18,12 +18,14 @@ pygame.display.set_icon(icon)
 
 clock = pygame.time.Clock()
 
+running = True
+
 game = Game()
 
 GAME_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(GAME_UPDATE, 200)
 
-while True:
+while running:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			pygame.quit()
