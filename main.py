@@ -6,14 +6,7 @@
 
 import pygame
 import sys
-from ui.grid import Grid
-from engine.pieces.i_block import IBlock
-from engine.pieces.j_block import JBlock
-from engine.pieces.l_block import LBlock
-from engine.pieces.o_block import OBlock
-from engine.pieces.s_block import SBlock
-from engine.pieces.t_block import TBlock
-from engine.pieces.z_block import ZBlock
+from engine.game import Game
 
 pygame.init()
 dar_blue = (44, 44, 127)
@@ -25,20 +18,25 @@ pygame.display.set_icon(icon)
 
 clock = pygame.time.Clock()
 
-game_grid = Grid()
-
-block = LBlock()
+game = Game()
 
 while True:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			pygame.quit()
 			sys.exit()
+		
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_LEFT:
+				game.move_left()
+			if event.key == pygame.K_RIGHT:
+				game.move_right()
+			if event.key == pygame.K_DOWN:
+				game.move_down()
 
 	#drawing
 	screen.fill(dar_blue)
-	game_grid.draw(screen)
-	block.draw(screen)
+	game.draw(screen)
 
 	pygame.display.update()
 	clock.tick(60) # <-- using 60 FPS

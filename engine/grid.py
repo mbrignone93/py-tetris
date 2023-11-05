@@ -22,6 +22,9 @@ class Grid:
 				print(self.grid[row][column], end = " ")
 			print() 
 
+	def is_inside(self, row, column):
+		return row >= 0 and row < self.number_rows and column >= 0 and column < self.number_columns
+
 	def draw(self, screen):
 		for row in range(self.number_rows):
 			for column in range(self.number_columns):

@@ -17,3 +17,4 @@ class TBlock(Block):
 			2: [Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 1)],
 			3: [Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 1)]
 		}
+		self.move(0, 3)
