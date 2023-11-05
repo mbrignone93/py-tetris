@@ -28,30 +28,38 @@ class Game:
 		self.HIGHSCORE_FILE = "highscore.txt"
 		self.rotate_sound = pygame.mixer.Sound("assets/sounds/rotate.ogg")
 		self.clear_sound = pygame.mixer.Sound("assets/sounds/clear.ogg")
+		self.level = 1
+		self.lines = 0
+		self.lines_per_level = 0
+
+		file = open(self.HIGHSCORE_FILE, "r")
+		self.highscore = file.read()
 
 		pygame.mixer.music.load("assets/sounds/music.ogg")
 		pygame.mixer.music.play(-1)
 		
 	def update_score(self, lines_cleared, move_down_points):
-		match lines_cleared:
-			case 1:
-				self.score += 40
-			case 2:
-				self.score += 100
-			case 3:
-				self.score += 300
-			case 4:
-				self.score += 1200
-		self.score += move_down_points
+		if self.level < 10:
+			if self.lines_per_level >= 15:
+				self.lines_per_level = 0
+				self.level += 1
 
-	def get_highscore(self):
-		file = open(self.HIGHSCORE_FILE, "r")
-		highscore = file.read()
-		return highscore
+			match lines_cleared:
+				case 1:
+					self.score += 40
+				case 2:
+					self.score += 100
+				case 3:
+					self.score += 300
+				case 4:
+					self.score += 1200
+
+			self.score += move_down_points
+			self.lines += lines_cleared
+			self.lines_per_level += lines_cleared
 
 	def set_highscore(self):
-		highscore = self.get_highscore()
-		if self.score > int(highscore):
+		if self.score > int(self.highscore):
 			file = open(self.HIGHSCORE_FILE, "a")
 			file.seek(0)
 			file.truncate()
@@ -116,6 +124,9 @@ class Game:
 		self.next_block = self.get_random_block()
 		self.set_highscore()
 		self.score = 0
+		self.level = 1
+		self.lines = 0
+		self.lines_per_level = 0
 
 	def block_fits(self):
 		tiles = self.current_block.get_cell_positions()
@@ -144,8 +155,8 @@ class Game:
 
 		# only pieces I and O are custom drawn centralized 
 		if self.next_block.id == 1:
-			self.next_block.draw(screen, 255, 408)
+		 	self.next_block.draw(screen, 255, 430)
 		elif self.next_block.id == 4:
-			self.next_block.draw(screen, 255, 395)
+		 	self.next_block.draw(screen, 255, 415)
 		else:
-			self.next_block.draw(screen, 270, 390)
+		 	self.next_block.draw(screen, 270, 415)
