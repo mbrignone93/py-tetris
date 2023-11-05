@@ -9,13 +9,25 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import sys
+from engine.colors import Colors
 from engine.game import Game
 
 pygame.init()
-dar_blue = (44, 44, 127)
+
+title_font = pygame.font.Font(None, 40)
+
+highscore_surface = title_font.render("Highscore", True, Colors.white)
+score_surface = title_font.render("Score", True, Colors.white)
+next_surface = title_font.render("Next", True, Colors.white)
+game_over_surface = title_font.render("GAME OVER", True, Colors.white)
+game_paused_surface = title_font.render("PAUSE", True, Colors.white)
+
+highscore_rect = pygame.Rect(320, 60, 170, 60)
+score_rect = pygame.Rect(320, 195, 170, 60)
+next_rect = pygame.Rect(320, 335, 170, 180)
 
 icon = pygame.image.load('assets/icon.png')
-screen = pygame.display.set_mode((300, 600))
+screen = pygame.display.set_mode((500, 620))
 pygame.display.set_caption("Py-Tetris")
 pygame.display.set_icon(icon)
 
@@ -41,6 +53,9 @@ while running:
 				game.game_over = False
 				game.reset()
 
+			if event.key == pygame.K_q:
+				pygame.quit()
+				sys.exit()
 			if event.key == pygame.K_LEFT and game.game_over == False and game.game_paused == False:
 				game.move_left()
 			if event.key == pygame.K_RIGHT and game.game_over == False and game.game_paused == False:
@@ -49,7 +64,7 @@ while running:
 				game.move_down()
 			if event.key == pygame.K_UP and game.game_over == False and game.game_paused == False:
 				game.rotate()
-			if event.key == pygame.K_RETURN:
+			if event.key == pygame.K_RETURN and game.game_over == False:
 				game.set_pause_or_resume_game()
 
 		if event.type == GAME_UPDATE and game.game_over == False:
@@ -57,7 +72,20 @@ while running:
 				game.move_down()
 
 	#drawing
-	screen.fill(dar_blue)
+	screen.fill(Colors.dark_blue)
+	screen.blit(highscore_surface, (340, 20, 50, 50))
+	screen.blit(score_surface, (365, 160, 50, 50))
+	screen.blit(next_surface, (375, 300, 50, 50))
+	
+	if game.game_paused == True:
+		screen.blit(game_paused_surface, (355, 552, 50, 50))
+
+	if game.game_over == True:
+		screen.blit(game_over_surface, (320, 552, 50, 50))
+	
+	pygame.draw.rect(screen, Colors.light_blue, highscore_rect, 0, 10)
+	pygame.draw.rect(screen, Colors.light_blue, score_rect, 0, 10)
+	pygame.draw.rect(screen, Colors.light_blue, next_rect, 0, 10)
 	game.draw(screen)
 
 	pygame.display.update()
