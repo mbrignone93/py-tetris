@@ -1,4 +1,11 @@
+#
+#  Developed by Maximiliano Brignone 
+#  https://github.com/mbrignone93
+#  © 2023	
+#
+
 import pygame
+from engine.colors import Colors
 
 class Grid:
 
@@ -7,25 +14,13 @@ class Grid:
 		self.number_columns = 10
 		self.cell_size = 30
 		self.grid = [[0 for j in range(self.number_columns)] for i in range(self.number_rows)]
-		self.colors = self.get_cell_colors()
+		self.colors = Colors.get_cell_colors()
 
 	def print_grid(self):
 		for row in range(self.number_rows):
 			for column in range(self.number_columns):
 				print(self.grid[row][column], end = " ")
 			print() 
-
-	def get_cell_colors(self):
-		dark_grey = (26, 31, 40)
-		green = (47, 230 ,23)
-		red = (232, 18, 18)
-		orange = (226, 116, 17)
-		yellow = (237, 234, 4)
-		purple = (166, 0, 247)
-		cyan = (21, 204, 209)
-		blue = (13, 64, 216)	
-
-		return [dark_grey, green, red, orange, yellow, purple, cyan, blue]
 
 	def draw(self, screen):
 		for row in range(self.number_rows):

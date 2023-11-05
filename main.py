@@ -1,6 +1,19 @@
+#
+#  Developed by Maximiliano Brignone 
+#  https://github.com/mbrignone93
+#  © 2023	
+#
+
 import pygame
 import sys
 from ui.grid import Grid
+from engine.pieces.i_block import IBlock
+from engine.pieces.j_block import JBlock
+from engine.pieces.l_block import LBlock
+from engine.pieces.o_block import OBlock
+from engine.pieces.s_block import SBlock
+from engine.pieces.t_block import TBlock
+from engine.pieces.z_block import ZBlock
 
 pygame.init()
 dar_blue = (44, 44, 127)
@@ -14,7 +27,7 @@ clock = pygame.time.Clock()
 
 game_grid = Grid()
 
-game_grid.print_grid()
+block = LBlock()
 
 while True:
 	for event in pygame.event.get():
@@ -25,6 +38,7 @@ while True:
 	#drawing
 	screen.fill(dar_blue)
 	game_grid.draw(screen)
+	block.draw(screen)
 
 	pygame.display.update()
 	clock.tick(60) # <-- using 60 FPS
