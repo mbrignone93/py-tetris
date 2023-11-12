@@ -19,6 +19,7 @@ Key controls:
 - Arrow Left: move piece to left
 - Arrow Right: move piece to right
 - Arrow Up: rotate piece
+- SPACE: move piece to floor
 
 System Requirements:
 

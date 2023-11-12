@@ -36,6 +36,10 @@ class Block:
 		if self.rotation_state == len(self.cells):
 			self.rotation_state = 0
 
+	def move_to_floor(self):
+		self.row_offset += 20
+		self.column_offset += 19
+
 	def undo_rotation(self):
 		self.rotation_state -= 1
 		if self.rotation_state == 0:

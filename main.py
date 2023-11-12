@@ -45,8 +45,7 @@ print("Py-Tetris running...")
 
 level = 1
 
-GAME_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(GAME_UPDATE, Levels.level[level])
+pygame.time.set_timer(pygame.USEREVENT, Levels.level[level])
 
 while running:
 	for event in pygame.event.get():
@@ -57,25 +56,35 @@ while running:
 		if event.type == pygame.KEYDOWN:
 			if game.game_over == True:
 				game.game_over = False
-				
 				game.reset()
 
 			if event.key == pygame.K_q:
 				pygame.quit()
 				sys.exit()
-			if event.key == pygame.K_LEFT or event.key == pygame.K_a and game.game_over == False and game.game_paused == False:
+			if event.key == pygame.K_LEFT and game.game_over == False and game.game_paused == False:
 				game.move_left()
-			if event.key == pygame.K_RIGHT or event.key == pygame.K_d and game.game_over == False and game.game_paused == False:
+			if event.key == pygame.K_a and game.game_over == False and game.game_paused == False:
+				game.move_left()
+			if event.key == pygame.K_RIGHT and game.game_over == False and game.game_paused == False:
 				game.move_right()
-			if event.key == pygame.K_DOWN or event.key == pygame.K_s and game.game_over == False and game.game_paused == False:
-				game.move_down()
+			if event.key == pygame.K_d and game.game_over == False and game.game_paused == False:
+				game.move_right()
+			if event.key == pygame.K_DOWN and game.game_over == False and game.game_paused == False:
+				game.move_down()	
 				game.update_score(0, 1)
-			if event.key == pygame.K_UP or event.key == pygame.K_w and game.game_over == False and game.game_paused == False:
+			if event.key == pygame.K_s and game.game_over == False and game.game_paused == False:
+				game.move_down()	
+				game.update_score(0, 1)
+			if event.key == pygame.K_UP and game.game_over == False and game.game_paused == False:
 				game.rotate()
+			if event.key == pygame.K_w and game.game_over == False and game.game_paused == False:
+				game.rotate()
+			if event.key == pygame.K_SPACE and game.game_over == False and game.game_paused == False:
+				pygame.time.set_timer(pygame.USEREVENT, 10)
 			if event.key == pygame.K_RETURN and game.game_over == False:
 				game.set_pause_or_resume_game()
 
-		if event.type == GAME_UPDATE and game.game_over == False:
+		if event.type == pygame.USEREVENT and game.game_over == False:
 			if game.game_paused == False:
 				game.move_down()
 
@@ -101,7 +110,7 @@ while running:
 
 	if game.level > level:
 		level += 1
-		pygame.time.set_timer(GAME_UPDATE, Levels.level[level])
+		pygame.time.set_timer(pygame.USEREVENT, Levels.level[level])
 
 	pygame.draw.rect(screen, Colors.light_blue, highscore_rect, 0, 10)
 	pygame.draw.rect(screen, Colors.light_blue, score_rect, 0, 10)

@@ -12,6 +12,7 @@ from engine.pieces.o_block import OBlock
 from engine.pieces.s_block import SBlock
 from engine.pieces.t_block import TBlock
 from engine.pieces.z_block import ZBlock
+from engine.levels import Levels
 import pygame
 import random
 
@@ -40,19 +41,19 @@ class Game:
 		
 	def update_score(self, lines_cleared, move_down_points):
 		if self.level < 10:
-			if self.lines_per_level >= 15:
+			if self.lines_per_level >= 10:
 				self.lines_per_level = 0
 				self.level += 1
 
 			match lines_cleared:
 				case 1:
-					self.score += 40
+					self.score += 40 * (self.level + 1)
 				case 2:
-					self.score += 100
+					self.score += 100 * (self.level + 1)
 				case 3:
-					self.score += 300
+					self.score += 300 * (self.level + 1)
 				case 4:
-					self.score += 1200
+					self.score += 1200 * (self.level + 1)
 
 			self.score += move_down_points
 			self.lines += lines_cleared
@@ -101,6 +102,8 @@ class Game:
 			self.lock_block()
 
 	def lock_block(self):
+		pygame.time.set_timer(pygame.USEREVENT, Levels.level[self.level])
+
 		tiles = self.current_block.get_cell_positions()
 		for position in tiles:
 			self.grid.grid[position.row][position.column] = self.current_block.id
@@ -127,6 +130,8 @@ class Game:
 		self.level = 1
 		self.lines = 0
 		self.lines_per_level = 0
+		file = open(self.HIGHSCORE_FILE, "r")
+		self.highscore = file.read()
 
 	def block_fits(self):
 		tiles = self.current_block.get_cell_positions()
@@ -141,6 +146,9 @@ class Game:
 			self.current_block.undo_rotation()
 		else:
 			self.rotate_sound.play()
+
+	def move_to_floor(self):
+		self.current_block.move_to_floor
 
 	def block_inside(self):
 		tiles = self.current_block.get_cell_positions()
