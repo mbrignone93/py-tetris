@@ -81,6 +81,7 @@ while running:
 				game.rotate()
 			if event.key == pygame.K_SPACE and game.game_over == False and game.game_paused == False:
 				pygame.time.set_timer(pygame.USEREVENT, 10)
+				game.update_score(0, 10)
 			if event.key == pygame.K_RETURN and game.game_over == False:
 				game.set_pause_or_resume_game()
 
