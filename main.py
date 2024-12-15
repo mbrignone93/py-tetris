@@ -60,6 +60,7 @@ while running:
 
 			if event.key == pygame.K_q:
 				pygame.quit()
+				print("Py-Tetris closed")
 				sys.exit()
 			if event.key == pygame.K_LEFT and game.game_over == False and game.game_paused == False:
 				game.move_left()
