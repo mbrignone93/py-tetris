@@ -24,6 +24,6 @@ Key controls:
 System Requirements:
 
 - Python 3.12 or higher
-- Pygame library 2.5.2 or higher
+- Pygame library 2.5.2 or higher (using this command for install library **py -m pip install -U pygame --user**)
   
 ![Screenshot-1](./screenshot/1.png)
